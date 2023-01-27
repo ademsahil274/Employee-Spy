@@ -13,13 +13,14 @@ VALUES ("Senior Engineer", "150000", "1"),
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES ("Gandalf", "White", "1", null),
-       ("Adem", "Sahil", "1", "1"),
-       ("Frodo", "Baggins", "2", null),
-       ("Samwise", "Gamgee", "2", "3"),
-       ("Arwen", "Alf", "3", null),
-       ("Harry", "Potter", "3", "5"),
-       ("Virginia", "Filangee", "4", null),
-       ("Ken", "Adams", "4", "7");
+       ("Adem", "Sahil", "2", "1"),
+       ("Frodo", "Baggins", "3", null),
+       ("Samwise", "Gamgee", "4", "3"),
+       ("Arwen", "Alf", "5", null),
+       ("Harry", "Potter", "6", "5"),
+       ("Virginia", "Filangee", "7", null),
+       ("Ken", "Adams", "8", "7");
 
+SELECT * FROM department;
 SELECT * FROM role;
 SELECT * FROM employee;

@@ -1,29 +1,24 @@
 // Dependences
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const inquirer =  require("inquirer");
 const cTable = require("console.table");
+// const connection = require("./db/db")
 
 const connection = mysql.createConnection({
     user: 'root',
     host: 'localhost',
-    port: 3001,
-    password: ' ',
+    port: 3306,
+    password: 'MyNewPass',
     database: "company_db",
 });
 
-// // Initial prompt
-// function startPrompt() {
-//     inquirer.prompt([
-        
-//     ])
-// }
-
 connection.connect((err) => {
     if (err) throw err;
-    console.log("connected as Id" + connection.threadId)
-    startPrompt();
+   console.log("connected as Id" + connection.threadId)
+   
 });
 
+ startPrompt();
 // initial prompts
 
 function startPrompt() {
@@ -43,8 +38,8 @@ function startPrompt() {
                     ]
         }
     ]).then(function(val) {
-        switch (val.choice) {
-            case "View All Employees?":
+        switch (val.action) {
+            case "View All Employees":
                 viewAllEmployees();
             break;
 
@@ -77,6 +72,8 @@ function startPrompt() {
 
 
 function viewAllEmployees() {
+    // "SELECT employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employee INNER JOIN role on role.id = employee.role_id INNER JOIN department on department.id = role.department_id left join employee e on employee.manager_id = e.id;"
+    //"SELECT * FROM employee"
     connection.query("SELECT employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employee INNER JOIN role on role.id = employee.role_id INNER JOIN department on department.id = role.department_id left join employee e on employee.manager_id = e.id;", 
     function(err, res) {
       if (err) throw err
