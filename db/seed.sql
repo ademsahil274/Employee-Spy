@@ -23,6 +23,6 @@ VALUES ("Gandalf", "White", "1", null),
        ("Virginia", "Filangee", "7", null),
        ("Ken", "Adams", "8", "7");
 
-SELECT * FROM DEPARTMENT;
-SELECT * FROM ROLE;
+SELECT * FROM department;
+SELECT * FROM role;
 SELECT * FROM employee;

@@ -122,7 +122,8 @@ function startPrompt() {
             const query = `INSERT INTO department (name) VALUES (?)`;
             connection.query(query, [response.name], (err, res) => {
                 if (err) throw err;
-                console.log(`Successfully added ${response.name} department at id ${res.insertID}`);
+                console.log(`Department Successfully added ${response.name} department at id ${res.insertID}`);
+                startPrompt();
             });
         })
         .catch(err => {
@@ -132,7 +133,7 @@ function startPrompt() {
 
     const addRole = () => {
         const departments = [];
-        connections.query("SELECT * FROM DEPARTMENT", (err, res) => {
+        connection.query("SELECT * FROM DEPARTMENT", (err, res) => {
             if (err) throw err;
 
             res.forEach(dep => {
@@ -155,18 +156,20 @@ function startPrompt() {
                     message: "What is the salary of the role?"
                 },
                 {
-                    type: "input",
+                    type: "list",
                     name: "department",
+                    choices: departments,
                     message: "Which department does the role belong to?"
                 }
             ];
 
-            inquirer.promt(questions)
+            inquirer.prompt(questions) 
             .then(response => {
                 const query = `INSERT INTO ROLE (title, salary, department_id) VALUES(?)`;
                 connection.query(query, [[response.title, response.salary, response.department]], (err, res) => {
                     if (err) throw err;
-                    console.log(`Succeefully added ${response.title} role at id ${res.insertId}`);
+                    console.log(`Role Succeefully added ${response.title} role at id ${res.insertId}`);
+                    startPrompt();
                 });
             })
             .catch(err => {
@@ -230,9 +233,9 @@ function startPrompt() {
             .then(response => {
                 const query = `INSERT INTO EMPLOYEE (first_name, last_name, role_id, manager_id) VALUES (?)`;
                 let manager_id = response.manager_id !== 0? response.manager_id: null;
-                connection.query(query, [[response.first_name, response.last_name, response.role_id, response.manager_id]], (err, res) => {
+                connection.query(query, [[response.first_name, response.last_name, response.role_id, manager_id]], (err, res) => {
                     if (err) throw err;
-                    console.log(`Successfully added ${response.first_name} ${response.last_name} with id ${res.insertId}`);
+                    console.log(`Employee Successfully added ${response.first_name} ${response.last_name} with id ${res.insertId}`);
                     startPrompt();
                 });
             })
