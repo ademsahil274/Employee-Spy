@@ -106,6 +106,62 @@ function startPrompt() {
             startPrompt();
           });
     };
+
+    const updateEmployee = () => {
+        connection.query("SELECT * FROM EMPLOYEE", (err, empRes) => {
+            if (err) throw err;
+            const employeeChoice = [];
+            empRes.forEach(({ first_name, last_name, id }) => {
+                employeeChoice.push({
+                    name: first_name + " " + last_name,
+                    value: id
+                });
+            });
+
+    connection.query("SELECT * FROM ROLE", (err, roleRes) => {
+        if(err) throw err;
+        const roleChoice = [];
+        roleRes.forEach(({ title, id }) => {
+            roleChoice.push({
+                name: title,
+                value: id
+            });
+        });
+
+        let questions = [
+            {
+                type: "list",
+                name: "id",
+                choices: employeeChoice,
+                message: "Which employee's role do you want to update?"
+            },
+            {
+                type: "list",
+                name: "role_id",
+                choices: roleChoice,
+                message: "Which role do you want to assign the selected employee?"
+            },
+            
+        ]
+
+        inquirer.prompt(questions)
+        .then(response => {
+            const query = `UPDATE EMPLOYEE SET ? WHERE ?? = ?`;
+            connection.query(query, [
+                {role_id: response.role_id}, "id", response.id
+            ], (err, res) => {
+                if(err) throw err;
+
+                console.log("Updated employee's role!"),
+                startPrompt();
+            });
+        })
+        .catch(err => {
+            console.error(err);
+        });
+    })
+        });
+    }
     
 
     const addDepartment = () => {
@@ -122,7 +178,7 @@ function startPrompt() {
             const query = `INSERT INTO department (name) VALUES (?)`;
             connection.query(query, [response.name], (err, res) => {
                 if (err) throw err;
-                console.log(`Department Successfully added ${response.name} department at id ${res.insertID}`);
+                console.log(`Added ${response.name} to the database`);
                 startPrompt();
             });
         })
@@ -168,7 +224,7 @@ function startPrompt() {
                 const query = `INSERT INTO ROLE (title, salary, department_id) VALUES(?)`;
                 connection.query(query, [[response.title, response.salary, response.department]], (err, res) => {
                     if (err) throw err;
-                    console.log(`Role Succeefully added ${response.title} role at id ${res.insertId}`);
+                    console.log(`Added ${response.title} the the database`);
                     startPrompt();
                 });
             })
@@ -194,10 +250,10 @@ function startPrompt() {
                 });
             });
 
-            connection.query("SELECT * FROM ROLE", (err, rolRes) => {
+            connection.query("SELECT * FROM ROLE", (err, roleRes) => {
                 if (err) throw err;
                 const roleChoice = [];
-                rolRes.forEach(({title, id}) => {
+                roleRes.forEach(({title, id}) => {
                     roleChoice.push({
                         name: title,
                         value: id
@@ -235,7 +291,7 @@ function startPrompt() {
                 let manager_id = response.manager_id !== 0? response.manager_id: null;
                 connection.query(query, [[response.first_name, response.last_name, response.role_id, manager_id]], (err, res) => {
                     if (err) throw err;
-                    console.log(`Employee Successfully added ${response.first_name} ${response.last_name} with id ${res.insertId}`);
+                    console.log(`Added ${response.first_name} ${response.last_name} to the databse`);
                     startPrompt();
                 });
             })
