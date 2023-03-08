@@ -5,6 +5,7 @@ const cTable = require("console.table");
 // const { response } = require("express");
 // const connection = require("./db/db")
 
+// connection to database
 const connection = mysql.createConnection({
     user: 'root',
     host: 'localhost',
@@ -80,7 +81,7 @@ function startPrompt() {
                 });
 }
 
-
+    //function view all departments
     const viewAllDepartment = () => {
 
     }
@@ -106,7 +107,7 @@ function startPrompt() {
             startPrompt();
           });
     };
-
+    //function update employee
     const updateEmployee = () => {
         connection.query("SELECT * FROM EMPLOYEE", (err, empRes) => {
             if (err) throw err;
@@ -163,7 +164,7 @@ function startPrompt() {
         });
     }
     
-
+    //function add department
     const addDepartment = () => {
         let questions = [
             {
@@ -186,7 +187,7 @@ function startPrompt() {
             console.error(err);
         });
     }
-
+    //function add role
     const addRole = () => {
         const departments = [];
         connection.query("SELECT * FROM DEPARTMENT", (err, res) => {
@@ -233,7 +234,7 @@ function startPrompt() {
             });
         });
     }
-
+    //function add employee
     const addEmployee = () => {
         connection.query("SELECT * FROM EMPLOYEE", (err, empRes) => {
             if (err) throw err;

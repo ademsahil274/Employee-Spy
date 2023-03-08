@@ -29,4 +29,4 @@ THEN I am prompted to select an employee to update and their new role and this i
 
 ## Video Link
 
-[Please click here to watch the video](https://drive.google.com/file/d/1BXVyuRMRTOqfYVONNWIHyoeA1pw2BknP/view?usp=sharing)
+[Please click here to watch the video](https://drive.google.com/file/d/1BEoDvSTyXVQRmNfdx4Kc62_MJ8nkFR8D/view)
